@@ -2,18 +2,20 @@ package com.revature.revspace.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name="credentials")
-public class Credentials
+public class Credentials implements Serializable
 {
 	@Id
-	@Column(name="user_id", updatable=false, nullable=false, unique=true)
+	@OneToOne
+	@JoinColumn(name="user_id", referencedColumnName = "user_id", updatable=false, nullable=false, unique=true)
 	private User user;
 
 	@Column(name="password", nullable=false, length=64)
