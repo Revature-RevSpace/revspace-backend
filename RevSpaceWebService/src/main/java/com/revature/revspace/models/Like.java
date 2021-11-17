@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="likes")
-public class Likes {
+public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +20,15 @@ public class Likes {
     @JoinColumn(name = "post_id")
     private Post postId;
 
-    public Likes() {
+    public Like() {
     }
 
-    public Likes(User userId, Post postId) {
+    public Like(User userId, Post postId) {
         this.userId = userId;
         this.postId = postId;
     }
 
-    public Likes(int likeId, User userId, Post postId) {
+    public Like(int likeId, User userId, Post postId) {
         this.likeId = likeId;
         this.userId = userId;
         this.postId = postId;
@@ -61,8 +61,8 @@ public class Likes {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Likes)) return false;
-        Likes likes = (Likes) o;
+        if (!(o instanceof Like)) return false;
+        Like likes = (Like) o;
         return getLikeId() == likes.getLikeId() && Objects.equals(getUserId(), likes.getUserId()) && Objects.equals(getPostId(), likes.getPostId());
     }
 
