@@ -84,6 +84,10 @@ public interface CrudService<T, KEY, REPO extends CrudRepository<T, KEY>>
 	{
 		try
 		{
+			if (!this.getRepo().findById(id).isPresent())
+			{
+				return false;
+			}
 			this.getRepo().deleteById(id);
 			return true;
 		}
