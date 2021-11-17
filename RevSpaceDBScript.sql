@@ -35,14 +35,13 @@ create table posts (
 	image varchar,
 	date bigint,
 	comment boolean,
-	parentPost int references posts(post_id)
+	parent_post int references posts(post_id)
 );
 
-create table post_likes (
+create table likes (
 	like_id serial primary key,
 	user_id int references users(user_id),
 	post_id int references posts(post_id)
-	
 );
 
 
