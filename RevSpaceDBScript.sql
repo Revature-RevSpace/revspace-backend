@@ -23,8 +23,8 @@ create table if not exists users (
 );
 
 create table if not exists credentials (
-	user_id int primary key references users,
-	password char(64) not null
+	user_id int primary key references users(user_id),
+	password varchar(64) not null
 );
 
 
