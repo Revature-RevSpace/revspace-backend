@@ -5,6 +5,13 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This interface defines some default create/retrieve/update/delete methods.
+ * Implementing this on a service interface will make it implement those methods.
+ * @param <T> The entity type managed by this interface
+ * @param <KEY> The primary key type of the entity type
+ * @param <REPO> A CrudRepository type your extending interface uses
+ */
 public interface CrudService<T, KEY, REPO extends CrudRepository<T, KEY>>
 {
 	/**
