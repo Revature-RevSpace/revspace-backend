@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 	@Override
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException
 	{
-		com.revature.revspace.models.User user = this.userService.getEmployeeByEmail(userEmail);
+		com.revature.revspace.models.User user = this.userService.getUserByEmail(userEmail);
 		if (user == null)
 			throw new UsernameNotFoundException("No user found with email " + userEmail);
 		List<String> roles = new ArrayList<>();

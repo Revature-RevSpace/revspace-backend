@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootTest(classes= RevSpaceWebServiceApplication.class)
-public class UserDetailsServiceImpl
+public class UserDetailsServiceImplTests
 {
 	@Autowired
 	UserDetailsService userDetailsService;
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl
 		User mockUser = ModelGenerators.makeRandomUser(1);
 		String email = mockUser.getEmail();
 		String[] expectedRoles = {"ROLE_USER"};
-		Mockito.when(userService.getEmployeeByUsername(email))
+		Mockito.when(userService.getUserByEmail(email))
 			.thenReturn(mockUser);
 		UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 		Assertions.assertEquals(email, userDetails.getUsername());
@@ -43,33 +43,11 @@ public class UserDetailsServiceImpl
 	}
 
 	@Test
-	void loadManagerByUsernameLoadsManager()
-	{
-		int id = 1;
-		String username = "stevet";
-		Employee mockEmployee = new Employee(id, "Steve Testperson", username, "password", 0);
-		String[] expectedRoles = {"ROLE_USER", "ROLE_MANAGER"};
-		Mockito.when(userService.getEmployeeByUsername(username))
-			.thenReturn(mockEmployee);
-		Mockito.when(userService.isEmployeeManager(id))
-			.thenReturn(true);
-		UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-		Assertions.assertEquals(username, userDetails.getUsername());
-		for (String role : expectedRoles)
-		{
-			Assertions.assertTrue(userDetails.getAuthorities()
-				.stream()
-				.map(GrantedAuthority::getAuthority)
-				.anyMatch(role::equals));
-		}
-	}
-
-	@Test
 	void loadMissingUserThrowsException()
 	{
-		String username = "stevet";
-		Mockito.when(userService.getEmployeeByUsername(username))
+		String email = ModelGenerators.makeRandomAlphaString(5,10);
+		Mockito.when(userService.getUserByEmail(email))
 			.thenReturn(null);
-		Assertions.assertThrows(UsernameNotFoundException.class, ()->this.userDetailsService.loadUserByUsername(username));
+		Assertions.assertThrows(UsernameNotFoundException.class, ()->this.userDetailsService.loadUserByUsername(email));
 	}
 }
