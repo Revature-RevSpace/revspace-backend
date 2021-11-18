@@ -13,7 +13,8 @@ drop table if exists post_likes;
 create table if not exists users (
 	user_id serial primary key,
 	email varchar(100) unique not null,
-	name varchar(100) not null,
+	first_name varchar(50) not null,
+	last_name varchar(50) not null,
 	birthday bigint default null,
 	revature_join_date bigint default null,
 	github_username varchar(50) not null default '',
