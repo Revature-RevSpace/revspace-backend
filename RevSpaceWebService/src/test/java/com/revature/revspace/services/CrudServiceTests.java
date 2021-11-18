@@ -46,7 +46,7 @@ public class CrudServiceTests
 			user.getAboutMe()
 		);
 		Mockito.when(this.repo.save(user)).thenReturn(expectedUser);
-		User actualUser = this.service.add(expectedUser);
+		User actualUser = this.service.add(user);
 		Assertions.assertEquals(expectedUser, actualUser);
 		Assertions.assertNotEquals(oldId, actualUser.getUserId());
 	}
