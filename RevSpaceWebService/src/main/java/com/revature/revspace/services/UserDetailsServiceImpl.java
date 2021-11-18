@@ -48,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 			throw new UsernameNotFoundException("No user found with email " + userEmail);
 		List<String> roles = new ArrayList<>();
 		roles.add("USER");
-		Credentials credentials = this.credentialsService.getCredentialsForUser(user);
+		Credentials credentials = this.credentialsService.getByEmail(userEmail);
 		return org.springframework.security.core.userdetails.User.builder()
 			.username(user.getEmail())
 			.password(credentials.getPassword())
