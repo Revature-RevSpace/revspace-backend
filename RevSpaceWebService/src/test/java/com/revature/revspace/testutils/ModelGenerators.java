@@ -13,7 +13,7 @@ public class ModelGenerators
 	 */
 	public static User makeRandomUser()
 	{
-		String email = makeRandomAlphaString(2,10) + "@revature.net");
+		String email = makeRandomAlphaString(2,10) + "@revature.net";
 		String name = makeRandomAlphaString(2,20);
 		long birthday = (1990L*365L*24L*60L*60L*1000L) + (RANDOM.nextLong() % 1000L)*365L*24L*60L*60L*1000L;
 		long revatureJoinDate = (2010L*365L*24L*60L*60L*1000L) + (RANDOM.nextLong() % 1000L)*365L*24L*60L*60L*1000L;

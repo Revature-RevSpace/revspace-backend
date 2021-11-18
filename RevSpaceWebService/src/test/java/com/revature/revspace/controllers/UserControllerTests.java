@@ -3,6 +3,7 @@ package com.revature.revspace.controllers;
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.UserService;
+import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +29,23 @@ public class UserControllerTests
 	private MockMvc mvc;
 
 	@Test
-	void getUser() throws Exception
+	void getUserById() throws Exception
 	{
-		// TODO write test
-	}
+		int id = 1;
+		User user = ModelGenerators.makeRandomUser(1);
 
-	@Test
-	void getUsers() throws Exception
-	{
-		List<User> users = new ArrayList<>();
-		Mockito.when(service.getAll())
-			.thenReturn(users);
-		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users"));
+		Mockito.when(service.get(id))
+			.thenReturn(user);
+		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/1")
+			.contentType("application/json")
+			.content("{}"));
 		actions.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
 	@Test
 	void addUser() throws Exception
 	{
-		User user = null;
+		User user = ModelGenerators.makeRandomUser();
 
 		Mockito.when(service.add(user))
 			.thenReturn(user);
@@ -59,7 +58,7 @@ public class UserControllerTests
 	@Test
 	void updateUser() throws Exception
 	{
-		User user = null;
+		User user = ModelGenerators.makeRandomUser();
 
 		Mockito.when(service.add(new User()))
 			.thenReturn(user);
@@ -72,7 +71,7 @@ public class UserControllerTests
 	@Test
 	void deleteUser() throws Exception
 	{
-		User user = null;
+		User user = ModelGenerators.makeRandomUser();
 
 		Mockito.when(service.delete(0))
 			.thenReturn(true);
