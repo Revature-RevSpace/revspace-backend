@@ -36,7 +36,9 @@ public class UserRepoTests
 		// create a user, then delete it, then try to find it (emails are unique)
 		User user = ModelGenerators.makeRandomUser();
 		user = this.userRepo.save(user);
+		int id = user.getUserId();
 		String email = user.getEmail();
+		this.userRepo.deleteById(id);
 		User actualUser = this.userRepo.findByEmail(email);
 		Assertions.assertNull(actualUser);
 	}
