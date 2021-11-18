@@ -1,19 +1,18 @@
 package com.revature.revspace.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Objects;
+
 
 @Entity
 @Table(name="credentials")
-public class Credentials implements Serializable
-{
+public class Credentials{
+
 	@Id
+	@Column(name = "credentials_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int credentialsId;
+
 	@OneToOne
 	@JoinColumn(name="user_id", referencedColumnName = "user_id", updatable=false, nullable=false, unique=true)
 	private User user;
@@ -21,63 +20,63 @@ public class Credentials implements Serializable
 	@Column(name="password", nullable=false, length=64)
 	private String password;
 
-	public Credentials()
-	{
-		this(null, "");
+	public Credentials() {
 	}
 
-	public Credentials(String password)
-	{
-		this(null, password);
-	}
-
-	public Credentials(User user, String password)
-	{
+	public Credentials(User user, String password) {
 		this.user = user;
 		this.password = password;
 	}
 
-	public User getUser()
-	{
+	public Credentials(int credentialsId, User user, String password) {
+		this.credentialsId = credentialsId;
+		this.user = user;
+		this.password = password;
+	}
+
+	public int getCredentialsId() {
+		return credentialsId;
+	}
+
+	public void setCredentialsId(int credentialsId) {
+		this.credentialsId = credentialsId;
+	}
+
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User user)
-	{
+	public void setUser(User user) {
 		this.user = user;
 	}
 
-	public String getPassword()
-	{
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password)
-	{
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Credentials that = (Credentials) o;
-		return Objects.equals(getUser(), that.getUser()) && Objects.equals(getPassword(), that.getPassword());
+		return getCredentialsId() == that.getCredentialsId() && Objects.equals(getUser(), that.getUser()) && Objects.equals(getPassword(), that.getPassword());
 	}
 
 	@Override
-	public int hashCode()
-	{
-		return Objects.hash(getUser(), getPassword());
+	public int hashCode() {
+		return Objects.hash(getCredentialsId(), getUser(), getPassword());
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "Credentials{" +
-			"user=" + user +
-			", password='" + password + '\'' +
-			'}';
+				"credentialsId=" + credentialsId +
+				", user=" + user +
+				", password='" + password + '\'' +
+				'}';
 	}
 }

@@ -3,7 +3,7 @@
 
 	drop table if exists credentials;
 
-drop table if exists post_likes;
+drop table if exists likes;
 	drop table if exists posts;
 		drop table if exists users;
 
@@ -24,7 +24,8 @@ create table if not exists users (
 );
 
 create table if not exists credentials (
-	user_id int primary key references users(user_id),
+	credentials_id serial primary KEY,
+	user_id int references users(user_id) UNIQUE NOT NULL,
 	password varchar(64) not null
 );
 
