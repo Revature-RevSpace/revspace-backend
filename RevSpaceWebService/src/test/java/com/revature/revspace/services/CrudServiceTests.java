@@ -1,6 +1,10 @@
 package com.revature.revspace.services;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
+import com.revature.revspace.models.User;
+import com.revature.revspace.repositories.UserRepo;
+import com.revature.revspace.testutils.ModelGenerators;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -8,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,64 +21,128 @@ import java.util.Optional;
 @SpringBootTest(classes= RevSpaceWebServiceApplication.class)
 public class CrudServiceTests
 {
+	@Autowired
+	UserService service;
+
+	@MockBean
+	UserRepo repo;
 
 	@Test
 	void addUser()
 	{
-		// TODO write test
+		User user = ModelGenerators.makeRandomUser();
+		int oldId = user.getUserId();
+		int newId = 1;
+		User expectedUser = new User(
+			newId,
+			user.getEmail(),
+			user.getFirstName(),
+			user.getLastName(),
+			user.getBirthday(),
+			user.getRevatureJoinDate(),
+			user.getGithubUsername(),
+			user.getTitle(),
+			user.getLocation(),
+			user.getAboutMe()
+		);
+		Mockito.when(this.repo.save(user)).thenReturn(expectedUser);
+		User actualUser = this.service.add(user);
+		Assertions.assertEquals(expectedUser, actualUser);
+		Assertions.assertNotEquals(oldId, actualUser.getUserId());
 	}
 
 	@Test
 	void getUser()
 	{
-		// TODO write test
+		int id = 1;
+		User expectedUser = ModelGenerators.makeRandomUser(id);
+		Optional<User> optionalUser = Optional.of(expectedUser);
+		Mockito.when(this.repo.findById(id)).thenReturn(optionalUser);
+		User actualUser = this.service.get(id);
+		Assertions.assertEquals(expectedUser, actualUser);
 	}
 
 	@Test
 	void getUserDoesntGetUserIfIdDoesNotExist()
 	{
-		// TODO write test
+		int id = 1;
+		Mockito.when(this.repo.findById(id)).thenReturn(null);
+		User actualUser = null;
+		Assertions.assertNull(actualUser);
 	}
 
 	@Test
 	void getAllUsers()
 	{
-		// TODO write test
+		User userA = ModelGenerators.makeRandomUser(1);
+		User userB = ModelGenerators.makeRandomUser(2);
+		User userC = ModelGenerators.makeRandomUser(3);
+		List<User> expectedUsers = Lists.list(userA, userB, userC);
+		Mockito.when(this.repo.findAll()).thenReturn(expectedUsers);
+		List<User> actualUsers = this.service.getAll();
+		Assertions.assertEquals(expectedUsers, actualUsers);
 	}
 
 	@Test
 	void updateUser()
 	{
-		// TODO write test
+		int id = 1;
+		User user = ModelGenerators.makeRandomUser(id);
+		String oldEmail = user.getEmail();
+		String newEmail = "a" + oldEmail;
+		user.setEmail(newEmail);
+		Mockito.when(repo.save(user)).thenReturn(user);
+		Mockito.when(repo.findById(id)).thenReturn(Optional.of(user));
+		User actualUser = this.service.update(user);
+		Assertions.assertEquals(user, actualUser);
+		Assertions.assertEquals(newEmail, actualUser.getEmail());
 	}
 
 	@Test
 	void updateUserDoesntUpdateUserIfIdDoesNotExist()
 	{
-		// TODO write test
+		int id = 1;
+		Mockito.when(repo.findById(id)).thenReturn(Optional.empty());
+		User actualUser = this.service.get(id);
+		Assertions.assertNull(actualUser);
 	}
 
 	@Test
 	void updateNullUserDoesntUpdateUser()
 	{
-		// TODO write test
+		Assertions.assertNull(this.service.update(null));
 	}
 
 	@Test
 	void deleteUser()
 	{
-		// TODO write test
+		int id = 1;
+		User user = ModelGenerators.makeRandomUser();
+		Optional<User> optionalUser = Optional.of(user);
+		Mockito.when(this.repo.findById(id)).thenReturn(optionalUser);
+		Mockito.doNothing().when(this.repo).deleteById(id);
+		boolean deleted = this.service.delete(id);
+		Assertions.assertTrue(deleted);
 	}
 
 	@Test
 	void deleteUserDoesntDeleteUserIfIdDoesNotExist()
 	{
-		// TODO write test
+		int id = 1;
+		User user = ModelGenerators.makeRandomUser();
+		Optional<User> optionalUser = Optional.of(user);
+		Mockito.when(this.repo.findById(id)).thenReturn(Optional.empty());
+		Mockito.doThrow(IllegalArgumentException.class)
+			.when(this.repo).deleteById(id);
+		boolean deleted = this.service.delete(id);
+		Assertions.assertFalse(deleted);
 	}
 
 	@Test
 	void deleteNullUserIdDoesntUpdateUser()
 	{
-		// TODO write test
+		Mockito.doThrow(IllegalArgumentException.class)
+			.when(this.repo).deleteById(null);
+		Assertions.assertFalse(this.service.delete(null));
 	}
 }

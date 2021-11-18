@@ -1,5 +1,6 @@
 package com.revature.revspace.testutils;
 
+import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 
 import java.util.Random;
@@ -38,6 +39,31 @@ public class ModelGenerators
 	}
 
 	/**
+	 * Creates a random set of credentials for a user, without setting the ID.
+	 * @param user The user to associate with these credentials
+	 * @return Randomized credentials (with no ID set)
+	 */
+	public static Credentials makeRandomCredentials(User user)
+	{
+		String password = makeRandomAlphaString(64, 64);
+		return new Credentials(user, password);
+	}
+
+	/**
+	 * Creates a random set of credentials, setting the specified user and ID
+	 * (for mocking already-existing credentials)
+	 * @param id The database ID to create these credentials with
+	 * @param user The user to associate with these credentials
+	 * @return A randomized set of credentials with the given user and ID set
+	 */
+	public static Credentials makeRandomCredentials(int id, User user)
+	{
+		Credentials credentials = makeRandomCredentials(user);
+		credentials.setCredentialsId(id);
+		return credentials;
+	}
+
+	/**
 	 * Generates a random string of alphabetic characters.
 	 * @param minLength Minimum length of the string.
 	 * @param maxLength Maximum length of the string.
@@ -56,5 +82,14 @@ public class ModelGenerators
 			builder.append(c);
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * @return idLess Credentials object with random nested user object
+	 */
+	public static Credentials makeRandomCredentials()
+	{
+		String password = makeRandomAlphaString(64,64);
+		return new Credentials(makeRandomUser(), password);
 	}
 }

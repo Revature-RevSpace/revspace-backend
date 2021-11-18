@@ -1,3 +1,4 @@
+src/main/resources/logfile.log
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
