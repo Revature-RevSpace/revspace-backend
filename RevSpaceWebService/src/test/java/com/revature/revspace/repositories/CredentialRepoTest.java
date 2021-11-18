@@ -29,7 +29,7 @@ public class CredentialRepoTest {
         credentials = credentialsRepo.save(credentials);
 
         Credentials test = credentialsRepo.findByUserEmail("abc@email.com");
-        System.out.println(test);
+
         assertEquals("abc@email.com", test.getUser().getEmail());
         assertNotNull(test);
     }
