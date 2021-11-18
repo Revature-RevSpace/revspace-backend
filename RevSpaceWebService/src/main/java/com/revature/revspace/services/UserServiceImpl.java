@@ -22,4 +22,10 @@ public class UserServiceImpl implements UserService
     {
         return value.getUserId();
     }
+
+    @Override
+    public User getUserByEmail(String email)
+    {
+        return this.ur.findByEmail(email);
+    }
 }
