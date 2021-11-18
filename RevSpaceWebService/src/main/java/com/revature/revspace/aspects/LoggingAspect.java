@@ -61,4 +61,60 @@ public class LoggingAspect {
         MyLogger.logger.error(logString);
     }
 
+    //Logging the return of UserRepo
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.repositories.UserRepo.*(..))", returning = "result")
+    public void logAfterUserRepo(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the UserRepo
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.repositories.UserRepo.*(..))", throwing = "error")
+    public void logErrorUserRepo(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
+
+    //Logging the return of UserService
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.services.UserServiceImpl.*(..))", returning = "result")
+    public void logAfterUserService(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the UserService
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.services.UserServiceImpl.*(..))", throwing = "error")
+    public void logErrorUserService(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
+
+    //Logging the return of UserController
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.controllers.UserController.*(..))", returning = "result")
+    public void logAfterUserController(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the UserController
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.controllers.UserController.*(..))", throwing = "error")
+    public void logErrorUserController(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
 }

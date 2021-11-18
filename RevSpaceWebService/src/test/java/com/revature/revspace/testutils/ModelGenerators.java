@@ -1,5 +1,6 @@
 package com.revature.revspace.testutils;
 
+import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 
 import java.util.Random;
@@ -56,5 +57,14 @@ public class ModelGenerators
 			builder.append(c);
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * @return idLess Credentials object with random nested user object
+	 */
+	public static Credentials makeRandomCredentials()
+	{
+		String password = makeRandomAlphaString(64,64);
+		return new Credentials(makeRandomUser(), password);
 	}
 }
