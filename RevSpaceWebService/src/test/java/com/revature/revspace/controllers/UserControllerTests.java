@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,6 +25,8 @@ import java.util.List;
 @SpringBootTest(classes = RevSpaceWebServiceApplication.class)
 public class UserControllerTests
 {
+	private static final String TEST_EMAIL = "testemail@revature.net";
+
 	@MockBean
 	private UserService service;
 
@@ -34,6 +37,7 @@ public class UserControllerTests
 	private MockMvc mvc;
 
 	@Test
+	@WithMockUser(username=TEST_EMAIL)
 	void getUserById() throws Exception
 	{
 		int id = 1;
@@ -45,6 +49,18 @@ public class UserControllerTests
 			.contentType("application/json")
 			.content("{}"));
 		actions.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	void getUserDoesntGetUserIfUnauthorized() throws Exception
+	{
+		int id = 1;
+		User user = ModelGenerators.makeRandomUser(1);
+
+		Mockito.when(service.get(id))
+			.thenReturn(user);
+		ResultActions actions = mvc.perform(MockMvcRequestBuilders.get("/users/1"));
+		actions.andExpect(MockMvcResultMatchers.status().isUnauthorized());
 	}
 
 	@Test
@@ -63,6 +79,7 @@ public class UserControllerTests
 	}
 
 	@Test
+	@WithMockUser(username=TEST_EMAIL)
 	void updateUser() throws Exception
 	{
 		User user = ModelGenerators.makeRandomUser();
@@ -76,6 +93,7 @@ public class UserControllerTests
 	}
 
 	@Test
+	@WithMockUser(username=TEST_EMAIL)
 	void deleteUser() throws Exception
 	{
 		User user = ModelGenerators.makeRandomUser();
