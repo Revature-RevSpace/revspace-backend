@@ -21,7 +21,7 @@ public class CredentialsServiceTest {
 
     @Test
     void getByEmail(){
-        User user = new User("abc@email.com", "name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
+        User user = new User("abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(user, "password");
 
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
