@@ -1,6 +1,8 @@
 package com.revature.revspace.controllers;
 
+import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
+import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ public class UserController
 {
     @Autowired
     private UserService us;
+    @Autowired
+    private CredentialsService cs;
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(name = "id") String id)
@@ -40,12 +44,13 @@ public class UserController
 
     @PostMapping(value ="/users", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(@RequestBody User newUser)
+    public User addUser(@RequestBody Credentials creds)
     {
         User updatedUser;
         try
         {
-            updatedUser = us.add(newUser);
+            updatedUser = us.add(creds.getUser());
+            cs.add(creds);
         }catch (IllegalArgumentException e)
         {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
