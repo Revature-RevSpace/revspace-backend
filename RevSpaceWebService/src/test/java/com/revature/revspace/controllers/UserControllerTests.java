@@ -1,7 +1,9 @@
 package com.revature.revspace.controllers;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
+import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
+import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.UserService;
 import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,9 @@ public class UserControllerTests
 	@MockBean
 	private UserService service;
 
+	@MockBean
+	private CredentialsService cs;
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -45,10 +50,12 @@ public class UserControllerTests
 	@Test
 	void addUser() throws Exception
 	{
-		User user = ModelGenerators.makeRandomUser();
+		Credentials creds = ModelGenerators.makeRandomCredentials();
 
-		Mockito.when(service.add(user))
-			.thenReturn(user);
+		Mockito.when(service.add(creds.getUser()))
+			.thenReturn(creds.getUser());
+		Mockito.when(cs.add(creds))
+				.thenReturn(creds);
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/users")
 			.contentType("application/json")
 			.content("{}"));
