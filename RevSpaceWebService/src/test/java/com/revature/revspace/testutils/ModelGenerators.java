@@ -14,7 +14,8 @@ public class ModelGenerators
 	public static User makeRandomUser()
 	{
 		String email = makeRandomAlphaString(2,10) + "@revature.net";
-		String name = makeRandomAlphaString(2,20);
+		String firstName = makeRandomAlphaString(2,20);
+		String lastName = makeRandomAlphaString(2,20);
 		long birthday = (1990L*365L*24L*60L*60L*1000L) + (RANDOM.nextLong() % 1000L)*365L*24L*60L*60L*1000L;
 		long revatureJoinDate = (2010L*365L*24L*60L*60L*1000L) + (RANDOM.nextLong() % 1000L)*365L*24L*60L*60L*1000L;
 		String githubUserName = makeRandomAlphaString(5, 20);
@@ -22,7 +23,7 @@ public class ModelGenerators
 		String location = makeRandomAlphaString(3, 20);
 		String aboutMe = makeRandomAlphaString(3, 50);
 
-		return new User(email, name, birthday, revatureJoinDate, githubUserName, title, location, aboutMe);
+		return new User(email, firstName, lastName, birthday, revatureJoinDate, githubUserName, title, location, aboutMe);
 	}
 
 	/**

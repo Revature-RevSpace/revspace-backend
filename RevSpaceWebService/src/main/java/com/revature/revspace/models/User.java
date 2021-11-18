@@ -21,8 +21,11 @@ public class User
 	@Column(name="email", length=100, nullable=false, unique=true)
 	private String email;
 
-	@Column(name="name", length=100, nullable = false)
-	private String name;
+	@Column(name="first_name", length=100, nullable = false)
+	private String firstName;
+
+	@Column(name="last_name", length=100, nullable = false)
+	private String lastName;
 
 	@Column(name="birthday")
 	private Long birthday;
@@ -44,19 +47,28 @@ public class User
 
 	public User()
 	{
-		this("", "", null, null, "", "", "", "");
+		this("", "", "", null, null, "", "", "", "");
 	}
 
-	public User(String email, String name, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
+	public User(String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
 	{
-		this(0, email, name, birthday, revatureJoinDate, githubUsername, title, location, aboutMe);
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.revatureJoinDate = revatureJoinDate;
+		this.githubUsername = githubUsername;
+		this.title = title;
+		this.location = location;
+		this.aboutMe = aboutMe;
 	}
 
-	public User(int userId, String email, String name, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
+	public User(int userId, String email, String firstName, String lastName, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
 	{
 		this.userId = userId;
 		this.email = email;
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.birthday = birthday;
 		this.revatureJoinDate = revatureJoinDate;
 		this.githubUsername = githubUsername;
@@ -85,14 +97,24 @@ public class User
 		this.email = email;
 	}
 
-	public String getName()
+	public String getFirstName()
 	{
-		return name;
+		return firstName;
 	}
 
-	public void setName(String name)
+	public void setFirstName(String firstName)
 	{
-		this.name = name;
+		this.firstName = firstName;
+	}
+
+	public String getLastName()
+	{
+		return lastName;
+	}
+
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;
 	}
 
 	public Long getBirthday()
@@ -161,28 +183,29 @@ public class User
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
-		return userId == user.userId && Objects.equals(email, user.email) && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday) && Objects.equals(revatureJoinDate, user.revatureJoinDate) && Objects.equals(githubUsername, user.githubUsername) && Objects.equals(title, user.title) && Objects.equals(location, user.location) && Objects.equals(aboutMe, user.aboutMe);
+		return getUserId() == user.getUserId() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getBirthday(), user.getBirthday()) && Objects.equals(getRevatureJoinDate(), user.getRevatureJoinDate()) && Objects.equals(getGithubUsername(), user.getGithubUsername()) && Objects.equals(getTitle(), user.getTitle()) && Objects.equals(getLocation(), user.getLocation()) && Objects.equals(getAboutMe(), user.getAboutMe());
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(userId, email, name, birthday, revatureJoinDate, githubUsername, title, location, aboutMe);
+		return Objects.hash(getUserId(), getEmail(), getFirstName(), getLastName(), getBirthday(), getRevatureJoinDate(), getGithubUsername(), getTitle(), getLocation(), getAboutMe());
 	}
 
 	@Override
 	public String toString()
 	{
 		return "User{" +
-			"userId=" + userId +
-			", email='" + email + '\'' +
-			", name='" + name + '\'' +
-			", birthday=" + birthday +
-			", revatureJoinDate=" + revatureJoinDate +
-			", githubUsername='" + githubUsername + '\'' +
-			", title='" + title + '\'' +
-			", location='" + location + '\'' +
-			", aboutMe='" + aboutMe + '\'' +
-			'}';
+				"userId=" + userId +
+				", email='" + email + '\'' +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", birthday=" + birthday +
+				", revatureJoinDate=" + revatureJoinDate +
+				", githubUsername='" + githubUsername + '\'' +
+				", title='" + title + '\'' +
+				", location='" + location + '\'' +
+				", aboutMe='" + aboutMe + '\'' +
+				'}';
 	}
 }
