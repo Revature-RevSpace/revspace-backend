@@ -3,7 +3,7 @@
 
 	drop table if exists credentials;
 
-drop table if exists post_likes;
+drop table if exists likes;
 	drop table if exists posts;
 		drop table if exists users;
 

@@ -42,10 +42,10 @@ public class User
 	@Column(name="aboutme", length=1000, nullable = false)
 	private String aboutMe;
 
-	public User()
-	{
-		this("", "", null, null, "", "", "", "");
-	}
+//	public User()
+//	{
+//		this("", "", null, null, "", "", "", "");
+//	}
 
 	public User(String email, String name, Long birthday, Long revatureJoinDate, String githubUsername, String title, String location, String aboutMe)
 	{
