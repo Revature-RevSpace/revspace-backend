@@ -6,6 +6,7 @@ import com.revature.revspace.utils.LoggedInUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -49,8 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.csrf()
 			.disable()
 			.authorizeRequests()
-			.anyRequest()
-			.authenticated()
+				/* APIS NOT NEEDING AUTHORIZATION MUST BE ADDED HERE */
+				.antMatchers(HttpMethod.POST, "/users").permitAll()
+				/* and authorize any request with valid authentication */
+				.anyRequest().authenticated()
 			.and()
 			.httpBasic()
 			.and().cors()
