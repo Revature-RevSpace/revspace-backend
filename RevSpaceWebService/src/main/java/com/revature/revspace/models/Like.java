@@ -73,7 +73,7 @@ public class Like {
 
     @Override
     public String toString() {
-        return "Likes{" +
+        return "Like{" +
                 "likeId=" + likeId +
                 ", userId=" + userId +
                 ", postId=" + postId +
