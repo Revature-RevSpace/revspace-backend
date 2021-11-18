@@ -102,8 +102,7 @@ public class CrudServiceTests
 	void updateUserDoesntUpdateUserIfIdDoesNotExist()
 	{
 		int id = 1;
-		User user = ModelGenerators.makeRandomUser(1);
-		Mockito.when(repo.findById(id)).thenReturn(null);
+		Mockito.when(repo.findById(id)).thenReturn(Optional.empty());
 		User actualUser = this.service.get(id);
 		Assertions.assertNull(actualUser);
 	}
