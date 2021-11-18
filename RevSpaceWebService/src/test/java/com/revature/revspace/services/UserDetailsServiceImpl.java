@@ -2,6 +2,7 @@ package com.revature.revspace.services;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
 import com.revature.revspace.models.User;
+import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,13 +26,13 @@ public class UserDetailsServiceImpl
 	@Test
 	void loadUserByUsernameLoadsUser()
 	{
-		String username = "stevet";
-		User mockUser = new User(1, "test@test.net", "Test Testperson",
+		User mockUser = ModelGenerators.makeRandomUser(1);
+		String email = mockUser.getEmail();
 		String[] expectedRoles = {"ROLE_USER"};
-		Mockito.when(userService.getEmployeeByUsername(username))
+		Mockito.when(userService.getEmployeeByUsername(email))
 			.thenReturn(mockUser);
-		UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-		Assertions.assertEquals(username, userDetails.getUsername());
+		UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
+		Assertions.assertEquals(email, userDetails.getUsername());
 		for (String role : expectedRoles)
 		{
 			Assertions.assertTrue(userDetails.getAuthorities()
