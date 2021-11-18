@@ -36,7 +36,8 @@ public class CrudServiceTests
 		User expectedUser = new User(
 			newId,
 			user.getEmail(),
-			user.getName(),
+			user.getFirstName(),
+			user.getLastName(),
 			user.getBirthday(),
 			user.getRevatureJoinDate(),
 			user.getGithubUsername(),
