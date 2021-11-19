@@ -38,6 +38,7 @@ public class PostServiceImpl implements PostService{
         return null;
     }
 
+
     public List<List<Post>> pullPostsList(int lastPostIdOnThePage, int firstPostIdOnThePage){
 
         List<Post> sortedCurrentPostsList = postRepo.findByCommentFalseOrderByDateDesc();
@@ -154,4 +155,5 @@ public class PostServiceImpl implements PostService{
 //        childrenComments.addAll(childrenOfChildren);
 //        return childrenComments;
 //    }
+
 }
