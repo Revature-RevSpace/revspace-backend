@@ -4,7 +4,6 @@ import com.revature.revspace.app.RevSpaceWebServiceApplication;
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 import com.revature.revspace.testutils.ModelGenerators;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

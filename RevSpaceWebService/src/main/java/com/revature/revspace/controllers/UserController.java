@@ -4,8 +4,10 @@ import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.UserService;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +20,13 @@ public class UserController
     private UserService us;
     @Autowired
     private CredentialsService cs;
+
+
+    @GetMapping("/login")
+    public User getCurrentUser()
+    {
+        return this.us.getLoggedInUser();
+    }
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(name = "id") String id)
@@ -51,7 +60,7 @@ public class UserController
         {
             updatedUser = us.add(creds.getUser());
             cs.add(creds);
-        }catch (IllegalArgumentException e)
+        }catch (Exception e)
         {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
