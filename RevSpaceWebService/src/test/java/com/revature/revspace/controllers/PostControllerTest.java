@@ -68,7 +68,6 @@ public class PostControllerTest {
 
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
         Mockito.when(service.get(1))
@@ -87,7 +86,6 @@ public class PostControllerTest {
     {
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
         Mockito.when(service.update(new Post()))
@@ -104,7 +102,6 @@ public class PostControllerTest {
     {
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Mockito.when(service.delete(1))
                 .thenReturn(true);
@@ -121,7 +118,6 @@ public class PostControllerTest {
         String id = "id";
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
         Mockito.when(service.get(1))
@@ -136,9 +132,6 @@ public class PostControllerTest {
     @WithMockUser(username=TEST_EMAIL)
     void updatePostWithoutInt() throws Exception
     {
-//        ResultActions ra1 = mvc.perform(MockMvcRequestBuilders.get("/posts/f"));
-//
-//        ra1.andExpect(status().is(422));
         String id = "id";
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
@@ -156,10 +149,8 @@ public class PostControllerTest {
     @WithMockUser(username=TEST_EMAIL)
     void getPostByIdNull() throws Exception
     {
-
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Post post = null;
         Mockito.when(service.get(1))
