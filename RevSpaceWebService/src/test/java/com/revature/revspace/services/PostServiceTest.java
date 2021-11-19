@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.revspace.services;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
 import com.revature.revspace.models.Like;
