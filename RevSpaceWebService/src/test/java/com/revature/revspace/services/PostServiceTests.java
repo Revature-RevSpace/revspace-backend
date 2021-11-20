@@ -20,8 +20,8 @@ public class PostServiceTests {
     @Autowired
     PostService ps;
 
-//    @MockBean
-//    PostRepo pr;
+    @MockBean
+    PostRepo pr;
 
     @Test
     void selectedRelatedComments(){
