@@ -2,10 +2,12 @@ package com.revature.revspace.controllers;
 
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.Post;
+import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,8 +18,22 @@ public class PostController
 {
     @Autowired
     PostService pos;
-    @Autowired
-    CredentialsService cs;
+//    @Autowired
+//    PostService ps;
+
+    @PostMapping(value ="/posts", consumes = "application/json" , produces = "application/json" )
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Post> addPost(@RequestBody Post p)
+    {
+        return new ResponseEntity<>(pos.add(p), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/orderItems")
+    public List<Post> getAllPosts(){
+        return pos.getAll();
+    }
+
 
     //Get Post By ID
     @GetMapping("/posts/{id}")
