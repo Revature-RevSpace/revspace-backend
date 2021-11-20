@@ -1,7 +1,6 @@
 package com.revature.revspace.services;
 
 import com.revature.revspace.models.Post;
-import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.PostRepo;
 import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
