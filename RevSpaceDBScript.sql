@@ -53,3 +53,12 @@ create table likes (
 	--REFERENCE TABLES--
 
 	--MEAT TABLES--
+
+	--TEST DATA--
+insert into users values
+	(default, 'username@email.com', 'Charles', 'Mann', 0, 0, 'userGit', 'someTitle', 'someTown', 'someThing');
+
+insert into credentials values
+	(default, 1, 'Password1');
+	
+	
