@@ -20,8 +20,8 @@ public class PostServiceTests {
     @Autowired
     PostService ps;
 
-    @MockBean
-    PostRepo pr;
+//    @MockBean
+//    PostRepo pr;
 
     @Test
     void selectedRelatedComments(){
@@ -47,7 +47,7 @@ public class PostServiceTests {
 
         List<Post> unrelatedComments = new ArrayList<>();
         for (int i = 0; i < 5; i++){
-            firstLevelComments.add(new Post(i+7,
+            unrelatedComments.add(new Post(i+7,
                     ModelGenerators.makeRandomUser(i+1),"body","image",0,
                     true, null));
         }
