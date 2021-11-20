@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.revature.revspace.util.PostDateComparator;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -22,10 +20,6 @@ public class PostServiceImpl implements PostService{
 
     @Autowired
     LikeRepo likeRepo;
-
-    //The larger the unix time, the newer the post.
-//    static List<Post> sortedCurrentPostsList = new ArrayList<>();       // Posts are in descending order
-//    static List<Post> sortedCurrentCommentsList = new ArrayList<>();   // Comments are in ascending order
 
 
     @Override
@@ -39,7 +33,7 @@ public class PostServiceImpl implements PostService{
     }
 
 
-    public List<List<Post>> pullPostsList(int lastPostIdOnThePage, int firstPostIdOnThePage){
+    public List<List<Post>> pullPostsList(int lastPostIdOnThePage){
 
         List<Post> sortedCurrentPostsList = postRepo.findByCommentFalseOrderByDateDesc();
         List<Post> sortedCurrentCommentsList = postRepo.findByCommentTrueOrderByDateAsc();
@@ -54,7 +48,11 @@ public class PostServiceImpl implements PostService{
             for(Post post : sortedCurrentPostsList){
                 if(post.getPostId() == lastPostIdOnThePage){
                     int index = sortedCurrentPostsList.indexOf(post);
-                    responsePostsList = sortedCurrentPostsList.subList(index + 1, index + 11);
+                    if((index + 11) < sortedCurrentPostsList.size()){
+                        responsePostsList = sortedCurrentPostsList.subList(index + 1, index + 11);
+                    }else {
+                        responsePostsList = sortedCurrentPostsList.subList(index + 1, sortedCurrentPostsList.size());
+                    }
                 }
             }
         }
@@ -109,20 +107,20 @@ public class PostServiceImpl implements PostService{
         return response;
     }
 
-//    public void updatePostsList(boolean comment){
-//        if(comment){
-//            int biggestCommentIdJava = sortedCurrentCommentsList.get(sortedCurrentCommentsList.size() - 1).getPostId();
-//            int biggestCommentIdDatabase = postRepo.findFirstByCommentTrueOrderByPostIdAsc();
-//            if (biggestCommentIdJava != biggestCommentIdDatabase){
-//                sortedCurrentCommentsList.addAll(postRepo.findByCommentTrueAndPostIdGreaterThanOrderByDateAsc(biggestCommentIdJava));
-//            }
-//        }else {
-//            int biggestPostIdJava = sortedCurrentPostsList.get(sortedCurrentPostsList.size() - 1).getPostId();
-//
-//            if (biggestPostIdJava != biggestCommentIdDatabase){
-//                sortedCurrentPostsList.addAll(0, postRepo.findByCommentFalseAndPostIdGreaterThanOrderByDateDesc(biggestPostIdJava));
+
+//    public List<Post> selectedRelatedComments (Post parentsPost, List<Post> allComments){
+//        List<Post> childrenComments = new ArrayList<>();
+//        for (Post comment : allComments) {
+//            if (parentsPost == comment.getParentPost()) {
+//                childrenComments.add(comment);
 //            }
 //        }
+//        List<Post> childrenOfChildren = new ArrayList<>();
+//        for(Post parentsComment : childrenComments){
+//            childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
+//        }
+//        childrenComments.addAll(childrenOfChildren);
+//        return childrenComments;
 //    }
 
     public List<Post> selectedRelatedComments (Post parentsPost, List<Post> allComments){
@@ -132,6 +130,7 @@ public class PostServiceImpl implements PostService{
                 childrenComments.add(comment);
             }
         }
+        allComments.removeAll(childrenComments);
         List<Post> childrenOfChildren = new ArrayList<>();
         for(Post parentsComment : childrenComments){
             childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
@@ -139,6 +138,7 @@ public class PostServiceImpl implements PostService{
         childrenComments.addAll(childrenOfChildren);
         return childrenComments;
     }
+<<<<<<< HEAD
 
 //    public List<Post> selectedRelatedCommentsFaster (Post parentsPost, List<Post> allComments){
 //        List<Post> childrenComments = new ArrayList<>();
@@ -156,4 +156,6 @@ public class PostServiceImpl implements PostService{
 //        return childrenComments;
 //    }
 
+=======
+>>>>>>> c6837fc (Backend PostService done)
 }
