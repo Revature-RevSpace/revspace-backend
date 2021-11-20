@@ -46,7 +46,7 @@ public class PostController
     }
 
     //Get Next Ten Posts
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage){
         int postId;
         try {

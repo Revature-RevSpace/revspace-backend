@@ -53,3 +53,34 @@ create table likes (
 	--REFERENCE TABLES--
 
 	--MEAT TABLES--
+
+	--TEST DATA--
+insert into users values
+	(default, 'username1@email.com', 'Charles', 'Mann', 0, 0, 'userGit1', 'someTitle', 'someTown', 'someThing'),
+	(default, 'username2@email.com', 'Lacey', 'Irwin', 0, 0, 'userGit2', 'someTitle', 'someTown', 'someThing');
+
+insert into credentials values
+	(default, 1, 'Password1'),
+	(default, 2, 'Password1');
+
+insert into posts values 
+	(default, 1, 'post1', 'https://i.imgur.com/s1L1qpB.jpeg', 1637446178, false, null),
+	(default, 2, 'post2', '', 1637446178, false, null);
+
+insert into posts values 
+	(default, 1, 'post2 level1 comment1', '', 1637456178, true, 2),
+	(default, 1, 'post2 level1 comment2', '', 1637466178, true, 2),
+	(default, 1, 'post2 level1 comment3', '', 1637476178, true, 2),
+	
+	(default, 2, 'post1 level1 comment1', '', 1637456178, true, 1),
+	(default, 2, 'post1 level1 comment2', '', 1637466178, true, 1),
+	(default, 2, 'post1 level1 comment3', '', 1637476178, true, 1);
+
+insert into posts values 
+	(default, 1, 'post1 level2 comment1', '', 1637456178, true, 3),
+	(default, 1, 'post1 level2 comment2', '', 1637456178, true, 3),
+	
+	(default, 2, 'post2 level2 comment1', '', 1637456178, true, 6),
+	(default, 2, 'post2 level2 comment2', '', 1637456178, true, 6);
+	
+	
