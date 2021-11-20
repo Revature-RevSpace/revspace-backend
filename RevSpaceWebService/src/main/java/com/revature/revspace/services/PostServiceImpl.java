@@ -1,12 +1,18 @@
 package com.revature.revspace.services;
 
+import com.revature.revspace.models.Like;
 import com.revature.revspace.models.Post;
+import com.revature.revspace.repositories.LikeRepo;
 import com.revature.revspace.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.revature.revspace.util.PostDateComparator;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -14,10 +20,12 @@ public class PostServiceImpl implements PostService{
     @Autowired
     PostRepo postRepo;
 
-    //The larger the unix time, the newer the post.
+    @Autowired
+    LikeRepo likeRepo;
 
-    static List<Post> sortedCurrentPostsList = new ArrayList<>();       // Posts are in descending order
-    static List<Post> sortedCurrentCommentsList = new ArrayList<>();   // Comments are in ascending order
+    //The larger the unix time, the newer the post.
+//    static List<Post> sortedCurrentPostsList = new ArrayList<>();       // Posts are in descending order
+//    static List<Post> sortedCurrentCommentsList = new ArrayList<>();   // Comments are in ascending order
 
 
     @Override
@@ -30,6 +38,120 @@ public class PostServiceImpl implements PostService{
         return null;
     }
 
+    public List<List<Post>> pullPostsList(int lastPostIdOnThePage, int firstPostIdOnThePage){
 
+        List<Post> sortedCurrentPostsList = postRepo.findByCommentFalseOrderByDateDesc();
+        List<Post> sortedCurrentCommentsList = postRepo.findByCommentTrueOrderByDateAsc();
+        List<Like> currentLikesList = (List<Like>) likeRepo.findAll();
+        List<Post> responsePostsList = new ArrayList<>();
+        List<Post> responseCommentsList = new ArrayList<>();
+        List<Post> responseLikesList = new ArrayList<>();
 
+        if(lastPostIdOnThePage == 0) {
+            responsePostsList = sortedCurrentPostsList.subList(0, 10);
+        }else {
+            for(Post post : sortedCurrentPostsList){
+                if(post.getPostId() == lastPostIdOnThePage){
+                    int index = sortedCurrentPostsList.indexOf(post);
+                    responsePostsList = sortedCurrentPostsList.subList(index + 1, index + 11);
+                }
+            }
+        }
+        for (Post post : responsePostsList) {
+            responseCommentsList.addAll(
+                    selectedRelatedComments(post, sortedCurrentCommentsList));
+        }
+        responseCommentsList.sort(new PostDateComparator());
+        for (Like like: currentLikesList){
+            for(Post post : responsePostsList){
+                if(post.getPostId() == like.getPostId().getPostId()){
+                    boolean notInList = true;
+                    for (Post likePost : responseLikesList){
+                        if(likePost.getPostId() == post.getPostId()){
+                            likePost.setDate(likePost.getDate() + 1);
+                            notInList = false;
+                            break;
+                        }
+                    }
+                    if(notInList){
+                        Post p = new Post();
+                        p.setDate(1);
+                        p.setPostId(post.getPostId());
+                        responseLikesList.add(p);
+                    }
+                }
+            }
+            for(Post comment : responseCommentsList){
+                if(comment.getPostId() == like.getPostId().getPostId()){
+                    boolean notInList = true;
+                    for (Post likePost : responseLikesList){
+                        if(likePost.getPostId() == comment.getPostId()){
+                            likePost.setDate(likePost.getDate() + 1);
+                            notInList = false;
+                            break;
+                        }
+                    }
+                    if(notInList){
+                        Post p = new Post();
+                        p.setDate(1);
+                        p.setPostId(comment.getPostId());
+                        responseLikesList.add(p);
+                    }
+                }
+            }
+        }
+        List<List<Post>> response = new ArrayList<>();
+
+        response.add(responsePostsList);
+        response.add(responseCommentsList);
+        response.add(responseLikesList);
+        return response;
+    }
+
+//    public void updatePostsList(boolean comment){
+//        if(comment){
+//            int biggestCommentIdJava = sortedCurrentCommentsList.get(sortedCurrentCommentsList.size() - 1).getPostId();
+//            int biggestCommentIdDatabase = postRepo.findFirstByCommentTrueOrderByPostIdAsc();
+//            if (biggestCommentIdJava != biggestCommentIdDatabase){
+//                sortedCurrentCommentsList.addAll(postRepo.findByCommentTrueAndPostIdGreaterThanOrderByDateAsc(biggestCommentIdJava));
+//            }
+//        }else {
+//            int biggestPostIdJava = sortedCurrentPostsList.get(sortedCurrentPostsList.size() - 1).getPostId();
+//
+//            if (biggestPostIdJava != biggestCommentIdDatabase){
+//                sortedCurrentPostsList.addAll(0, postRepo.findByCommentFalseAndPostIdGreaterThanOrderByDateDesc(biggestPostIdJava));
+//            }
+//        }
+//    }
+
+    public List<Post> selectedRelatedComments (Post parentsPost, List<Post> allComments){
+        List<Post> childrenComments = new ArrayList<>();
+        for (Post comment : allComments) {
+            if (parentsPost == comment.getParentPost()) {
+                childrenComments.add(comment);
+            }
+        }
+        List<Post> childrenOfChildren = new ArrayList<>();
+        for(Post parentsComment : childrenComments){
+            childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
+        }
+        childrenComments.addAll(childrenOfChildren);
+        return childrenComments;
+    }
+
+//    public List<Post> selectedRelatedCommentsFaster (Post parentsPost, List<Post> allComments){
+//        List<Post> childrenComments = new ArrayList<>();
+//        for (Post comment : allComments) {
+//            if (parentsPost == comment.getParentPost()) {
+//                childrenComments.add(comment);
+//                allComments.remove(comment);
+//            }
+//        }
+//        List<Post> childrenOfChildren = new ArrayList<>();
+//        for(Post parentsComment : childrenComments){
+//            childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
+//        }
+//        childrenComments.addAll(childrenOfChildren);
+//        return childrenComments;
+//    }
 }

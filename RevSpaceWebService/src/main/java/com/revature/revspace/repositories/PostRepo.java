@@ -9,8 +9,10 @@ import java.util.List;
 
 @Repository
 public interface PostRepo extends CrudRepository<Post, Integer> {
-
-    List<Post> findByCommentOrderByDateDesc(boolean comment);
-    List<Post> findByCommentOrderByDateAsc(boolean comment);
-
+    List<Post> findByCommentFalseOrderByDateDesc();
+    List<Post> findByCommentTrueOrderByDateAsc();
+    int findFirstByCommentFalseOrderByPostIdDesc();
+    int findFirstByCommentTrueOrderByPostIdAsc();
+    List<Post> findByCommentFalseAndPostIdGreaterThanOrderByDateDesc(int biggestCommentIdJava);
+    List<Post> findByCommentTrueAndPostIdGreaterThanOrderByDateAsc(int biggestPostIdJava);
 }
