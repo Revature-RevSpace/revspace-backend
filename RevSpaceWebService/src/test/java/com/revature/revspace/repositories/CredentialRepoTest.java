@@ -2,6 +2,7 @@ package com.revature.revspace.repositories;
 
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
+import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,5 +33,20 @@ public class CredentialRepoTest {
 
         assertEquals("abc@email.com", test.getUser().getEmail());
         assertNotNull(test);
+    }
+
+    @Test
+    @Rollback
+    void findByUserId()
+    {
+        Credentials creds = ModelGenerators.makeRandomCredentials();
+        User user = creds.getUser();
+
+        userRepo.save(user);
+        credentialsRepo.save(creds);
+
+        Credentials result = credentialsRepo.findByUserUserId(user.getUserId());
+
+        assertEquals(creds, result);
     }
 }
