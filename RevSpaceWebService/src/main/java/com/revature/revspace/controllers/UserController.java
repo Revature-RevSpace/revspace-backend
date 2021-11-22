@@ -51,6 +51,12 @@ public class UserController
         }
     }
 
+    /**
+     * Adds a given user through a surrounding credentials object
+     * gives a 409 for duplicate username, 422 for incomplete input
+     * @param creds a credentials object represented in JSON
+     * @return the user to be added without updated id
+     */
     @PostMapping(value ="/users", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody Credentials creds)
@@ -58,9 +64,18 @@ public class UserController
         User updatedUser;
         try
         {
-            updatedUser = us.add(creds.getUser());
-            cs.add(creds);
-        }catch (Exception e)
+            if(creds.getUser() != null && us.getUserByEmail(creds.getUser().getEmail()) == null)
+            {
+                updatedUser = us.add(creds.getUser());
+                cs.add(creds);
+            }else if(creds.getUser() == null)
+            {
+                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+            }else
+            {
+                throw new ResponseStatusException(HttpStatus.CONFLICT);
+            }
+        }catch (IllegalArgumentException e)
         {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
