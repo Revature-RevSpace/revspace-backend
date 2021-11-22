@@ -68,12 +68,15 @@ public class PostController
         try
         {
             safeId = Integer.parseInt(id);
+
         }catch (NumberFormatException e)
         {
             safeId = 0;
         }
+
         newPost.setPostId(safeId);
         return pos.update(newPost);
+
     }
 
     //Delete Post By ID
