@@ -30,8 +30,6 @@ public class PostController
     }
 
 
-
-
     //Get Post By ID
     @GetMapping("/posts/{id}")
     public Post getPostById(@PathVariable(name = "id") String id)

@@ -131,20 +131,4 @@ public class PostServiceImpl implements PostService {
         return childrenComments;
     }
 
-//    public List<Post> selectedRelatedCommentsFaster (Post parentsPost, List<Post> allComments){
-//        List<Post> childrenComments = new ArrayList<>();
-//        for (Post comment : allComments) {
-//            if (parentsPost == comment.getParentPost()) {
-//                childrenComments.add(comment);
-//                allComments.remove(comment);
-//            }
-//        }
-//        List<Post> childrenOfChildren = new ArrayList<>();
-//        for(Post parentsComment : childrenComments){
-//            childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
-//        }
-//        childrenComments.addAll(childrenOfChildren);
-//        return childrenComments;
-//    }
-
 }
