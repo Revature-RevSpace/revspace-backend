@@ -26,4 +26,11 @@ public class CredentialsServiceImpl implements CredentialsService{
     public Credentials getByEmail(String email) {
         return credentialsRepo.findByUserEmail(email);
     }
+
+    @Override
+    public Integer getIdByUserId(int id)
+    {
+        Credentials credResult = credentialsRepo.findByUserUserId(id);
+        return (credResult != null)? credResult.getCredentialsId() : 0;
+    }
 }

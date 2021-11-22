@@ -3,6 +3,7 @@ package com.revature.revspace.services;
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.CredentialsRepo;
+import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,15 @@ public class CredentialsServiceTest {
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
         Credentials actual = credentialsService.getByEmail(user.getEmail());
         assertEquals("abc@email.com", actual.getUser().getEmail());
+    }
+
+    @Test
+    void getIdByUserId()
+    {
+        Credentials creds = ModelGenerators.makeRandomCredentials();
+        int id = creds.getUser().getUserId();
+        Mockito.when(credentialsRepo.findByUserUserId(id))
+                .thenReturn(creds);
+        assertEquals(creds.getUser().getUserId(), credentialsService.getIdByUserId(id));
     }
 }
