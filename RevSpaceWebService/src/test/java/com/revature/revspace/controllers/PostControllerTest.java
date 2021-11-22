@@ -1,6 +1,7 @@
 package com.revature.revspace.controllers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.Like;
@@ -63,6 +64,44 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username=TEST_EMAIL)
+    void addPost() throws Exception
+    {
+        User user = new User("abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
+        Credentials credentials = new Credentials(user,"password");
+        Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
+        Post post = new Post(credentials.getUser(), "body","image",1234569L,true,null);
+        Mockito.when(service.add(new Post()))
+                .thenReturn(post);
+        System.out.println(post);
+        ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/posts")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(post)));
+        actions.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+
+    @Test
+    @WithMockUser(username=TEST_EMAIL)
+    void getAllPosts() throws Exception {
+        User user = new User("abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
+        Credentials credentials = new Credentials(user,"password");
+        Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
+        Post post = new Post(credentials.getUser(), "body","image",1234569L,true,null);
+        Mockito.when(service.add(new Post()))
+                .thenReturn(post);
+        System.out.println(post);
+        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(post)));
+        ra.andExpect(status().isOk());
+
+    }
+
+
+
+    @Test
+    @WithMockUser(username=TEST_EMAIL)
     void getPostById() throws Exception
     {
 
@@ -91,7 +130,7 @@ public class PostControllerTest {
         Mockito.when(service.update(new Post()))
                 .thenReturn(post);
         ResultActions actions = mvc.perform(MockMvcRequestBuilders.put("/posts/1")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType("application/json")
                 .content(gson.toJson(post)));
         actions.andExpect(MockMvcResultMatchers.status().isOk());
     }

@@ -2,6 +2,7 @@ package com.revature.revspace.controllers;
 
 import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.Post;
+import com.revature.revspace.models.User;
 import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,22 @@ public class PostController
 {
     @Autowired
     PostService pos;
-    @Autowired
-    CredentialsService cs;
+//    @Autowired
+//    PostService ps;
+
+    @PostMapping(value ="/posts", consumes = "application/json" , produces = "application/json" )
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Post> addPost(@RequestBody Post p)
+    {
+        return new ResponseEntity<>(pos.add(p), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<Post>> getAllPosts(){
+        return new ResponseEntity<>(pos.getAll(),HttpStatus.OK);
+    }
+
 
     //Get Post By ID
     @GetMapping("/posts/{id}")
@@ -78,13 +93,17 @@ public class PostController
         try
         {
             safeId = Integer.parseInt(id);
+
         }catch (NumberFormatException e)
         {
             safeId = 0;
         }
+
         newPost.setPostId(safeId);
         return pos.update(newPost);
+
     }
+
     //Delete Post By ID
     @DeleteMapping(value = "/posts/{id}")
     public boolean deletePost(@PathVariable("id") String id)
