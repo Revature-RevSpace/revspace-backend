@@ -30,10 +30,6 @@ public class PostController
     }
 
 
-    @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getAllPosts(){
-        return new ResponseEntity<>(pos.getAll(),HttpStatus.OK);
-    }
 
 
     //Get Post By ID
@@ -85,7 +81,7 @@ public class PostController
     }
 
     //Update Post By ID
-    @PutMapping(value = "/posts/{id}", consumes = "application/json")
+    @PutMapping(value = "/posts/{id}", consumes = "application/json", produces = "application/json")
     public Post updatePost(@PathVariable("id") String id, @RequestBody Post newPost)
     {
         
@@ -96,11 +92,13 @@ public class PostController
 
         }catch (NumberFormatException e)
         {
-            safeId = 0;
+            safeId = -1;
         }
-
-        newPost.setPostId(safeId);
-        return pos.update(newPost);
+        if(safeId != -1){
+            newPost.setPostId(safeId);
+            return pos.update(newPost);
+        }
+         return  null;
 
     }
 
