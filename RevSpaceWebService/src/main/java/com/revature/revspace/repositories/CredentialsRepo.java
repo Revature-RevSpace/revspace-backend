@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CredentialsRepo extends CrudRepository<Credentials, Integer>{
     Credentials findByUserEmail(String email);
+    Credentials findByUserUserId(int userId);
 }
 
 

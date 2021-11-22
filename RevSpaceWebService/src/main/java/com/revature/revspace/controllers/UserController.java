@@ -66,6 +66,7 @@ public class UserController
         try
         {
             if(!Objects.equals(creds.getPassword(), "")
+                    && creds.getPassword() != null
                     && creds.getUser() != null
                     && !Objects.equals(creds.getUser().getEmail(), "")
                     && !Objects.equals(creds.getUser().getFirstName(), "")
@@ -116,6 +117,7 @@ public class UserController
         boolean idFound;
         //parsing int from string, can(should) be done somewhere else
         int safeId;
+        Integer credsId;
         try
         {
             safeId = Integer.parseInt(id);
@@ -123,6 +125,8 @@ public class UserController
         {
             safeId = 0;
         }
+        credsId = cs.getIdByUserId(safeId);
+        cs.delete((credsId != null)?credsId:0);
         idFound = us.delete(safeId);
         if(!idFound)
         {

@@ -191,9 +191,11 @@ public class UserControllerTests
 	@WithMockUser(username=TEST_EMAIL)
 	void deleteUserBadId() throws Exception
 	{
-		User user = ModelGenerators.makeRandomUser();
+		Credentials creds = ModelGenerators.makeRandomCredentials();
 
 		Mockito.when(service.delete(0))
+				.thenReturn(false);
+		Mockito.when(cs.delete(creds.getCredentialsId()))
 				.thenReturn(false);
 		ResultActions actions = mvc.perform(MockMvcRequestBuilders.delete("/users/string")
 				.contentType("application/json")
