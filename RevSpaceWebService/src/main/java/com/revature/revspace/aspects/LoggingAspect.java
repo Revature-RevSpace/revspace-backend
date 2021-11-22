@@ -117,4 +117,61 @@ public class LoggingAspect {
         String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
         MyLogger.logger.error(logString);
     }
+
+    //Logging the return of PostRepo
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.repositories.PostRepo.*(..))", returning = "result")
+    public void logAfterPostRepo(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the PostRepo
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.repositories.PostRepo.*(..))", throwing = "error")
+    public void logErrorPostRepo(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
+
+    //Logging the return of PostService
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.services.PostServiceImpl.*(..))", returning = "result")
+    public void logAfterPostService(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the PostService
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.services.PostServiceImpl.*(..))", throwing = "error")
+    public void logErrorPostService(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
+
+    //Logging the return of PostControllers
+    @AfterReturning(pointcut = "execution(* com.revature.revspace.controllers.PostController.*(..))", returning = "result")
+    public void logAfterPostController(JoinPoint joinPoint, Object result){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " Return for method : " + joinPoint.getSignature().getName();
+        if(result != null){
+            MyLogger.logger.info(logString + " Success");
+        }
+        else{
+            MyLogger.logger.warn(logString + " Returned Null");
+        }
+    }
+
+    //Logging the errors of the PostControllers
+    @AfterThrowing(pointcut = "execution(* com.revature.revspace.controllers.PostController.*(..))", throwing = "error")
+    public void logErrorPostController(JoinPoint joinPoint, Throwable error){
+        String logString = "The class is : " + joinPoint.getTarget().getClass().getName() + " The Method is : " + joinPoint.getSignature().getName() + " Error is : " +error.getMessage();
+        MyLogger.logger.error(logString);
+    }
 }

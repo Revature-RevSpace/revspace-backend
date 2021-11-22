@@ -6,9 +6,11 @@ import com.revature.revspace.services.CredentialsService;
 import com.revature.revspace.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,6 +42,30 @@ public class PostController
         }else
         {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Get Next Ten Posts
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<List<Post>>> getNextTen (@RequestHeader("lastPostIdOnThePage") String lastPostIdOnThePage){
+        int postId;
+        try {
+            postId = Integer.parseInt(lastPostIdOnThePage);
+        } catch (NumberFormatException e){
+            postId = -1;
+            e.printStackTrace();
+        }
+        List<List<Post>> response = new ArrayList<>();
+        if(postId != -1){
+            response = pos.pullPostsList(postId);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        if(!response.isEmpty()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
     }
 
