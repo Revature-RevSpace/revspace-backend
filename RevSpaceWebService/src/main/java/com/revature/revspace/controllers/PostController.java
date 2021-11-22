@@ -29,9 +29,9 @@ public class PostController
     }
 
 
-    @GetMapping("/orderItems")
-    public List<Post> getAllPosts(){
-        return pos.getAll();
+    @GetMapping("/posts")
+    public ResponseEntity<List<Post>> getAllPosts(){
+        return new ResponseEntity<>(pos.getAll(),HttpStatus.OK);
     }
 
 
@@ -75,6 +75,7 @@ public class PostController
         newPost.setPostId(safeId);
         return pos.update(newPost);
     }
+
     //Delete Post By ID
     @DeleteMapping(value = "/posts/{id}")
     public boolean deletePost(@PathVariable("id") String id)

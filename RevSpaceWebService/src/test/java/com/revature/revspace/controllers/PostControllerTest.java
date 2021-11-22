@@ -83,7 +83,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username=TEST_EMAIL)
-    void getAllOrderItems() throws Exception {
+    void getAllPosts() throws Exception {
         User user = new User("abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(user,"password");
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
