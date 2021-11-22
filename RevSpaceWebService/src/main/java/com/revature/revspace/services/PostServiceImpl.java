@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Integer getIDFor(Post value) {
-        return null;
+        return value.getPostId();
     }
 
     public List<List<Post>> pullPostsList(int lastPostIdOnThePage){

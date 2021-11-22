@@ -26,6 +26,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -83,25 +87,6 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username=TEST_EMAIL)
-    void getAllPosts() throws Exception {
-        User user = new User("abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
-        Credentials credentials = new Credentials(user,"password");
-        Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
-        Post post = new Post(credentials.getUser(), "body","image",1234569L,true,null);
-        Mockito.when(service.add(new Post()))
-                .thenReturn(post);
-        System.out.println(post);
-        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(post)));
-        ra.andExpect(status().isOk());
-
-    }
-
-
-
-    @Test
-    @WithMockUser(username=TEST_EMAIL)
     void getPostById() throws Exception
     {
 
@@ -126,10 +111,10 @@ public class PostControllerTest {
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
-        Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+        Post post = new Post( credentials.getUser(), "body","image",1234569L,true,null);
         Mockito.when(service.update(new Post()))
                 .thenReturn(post);
-        ResultActions actions = mvc.perform(MockMvcRequestBuilders.put("/posts/1")
+        ResultActions actions = mvc.perform(MockMvcRequestBuilders.put("/posts")
                 .contentType("application/json")
                 .content(gson.toJson(post)));
         actions.andExpect(MockMvcResultMatchers.status().isOk());
@@ -169,21 +154,107 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username=TEST_EMAIL)
-    void updatePostWithoutInt() throws Exception
+    void getNextTen() throws Exception
     {
-        String id = "id";
+
         User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
         Credentials credentials = new Credentials(1,user,"password");
-        System.out.println(credentials);
         Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
-        Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
-        Mockito.when(service.update(new Post()))
-                .thenReturn(post);
-        ResultActions actions = mvc.perform(MockMvcRequestBuilders.put("/posts/{id}","a")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(post)));
-        actions.andExpect(MockMvcResultMatchers.status().is(200));
+
+        Post p1 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+        Post p2 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+
+
+        List<Post> post1 = new ArrayList<>();
+        post1.add(p1);
+        post1.add(p2);
+
+        List<List<Post>> postList = new ArrayList<>();
+        postList.add(post1);
+
+        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+
+        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", 1));
+        ra.andExpect(status().isOk());
+
+
     }
+
+
+    @Test
+    @WithMockUser(username=TEST_EMAIL)
+    void getNextTenWithoutInt() throws Exception
+    {
+
+        User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
+        Credentials credentials = new Credentials(1,user,"password");
+        Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
+//        Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+
+        Post p1 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+        Post p2 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+
+
+        List<Post> post1 = new ArrayList<>();
+        post1.add(p1);
+        post1.add(p2);
+
+        List<List<Post>> postList = new ArrayList<>();
+        postList.add(post1);
+
+
+        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+
+
+        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", -1));
+        ra.andExpect(status().is(400));
+
+
+    }
+
+    @Test
+    @WithMockUser(username=TEST_EMAIL)
+    void getNextTenWithString() throws Exception
+    {
+
+        User user = new User(1,"abc@email.com", "name","name", 8708779L, 234243234L, "git", "title", "location", "aboutme");
+        Credentials credentials = new Credentials(1,user,"password");
+        Mockito.when(credentialsRepo.findByUserEmail(user.getEmail())).thenReturn(credentials);
+//        Post post = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+
+        Post p1 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+        Post p2 = new Post(1, credentials.getUser(), "body","image",1234569L,true,null);
+
+
+        List<Post> post1 = new ArrayList<>();
+        post1.add(p1);
+        post1.add(p2);
+
+        List<List<Post>> postList = new ArrayList<>();
+        postList.add(post1);
+
+
+        Mockito.when(service.pullPostsList(1)).thenReturn(postList);
+
+
+        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", "a"));
+        ra.andExpect(status().is(400));
+
+
+    }
+
+    @Test
+    @WithMockUser(username=TEST_EMAIL)
+    void getNextTenNoContent() throws Exception
+    {
+
+        ResultActions ra = mvc.perform(MockMvcRequestBuilders.get("/posts").header("lastPostIdOnThePage", 1));
+        ra.andExpect(status().isNoContent());
+
+
+    }
+
+
     @Test
     @WithMockUser(username=TEST_EMAIL)
     void getPostByIdNull() throws Exception

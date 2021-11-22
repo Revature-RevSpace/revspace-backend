@@ -81,24 +81,13 @@ public class PostController
     }
 
     //Update Post By ID
-    @PutMapping(value = "/posts/{id}", consumes = "application/json", produces = "application/json")
-    public Post updatePost(@PathVariable("id") String id, @RequestBody Post newPost)
+    @PutMapping(value = "/posts", consumes = "application/json", produces = "application/json")
+    public Post updatePost(@RequestBody Post newPost)
     {
         
-        int safeId;
-        try
-        {
-            safeId = Integer.parseInt(id);
 
-        }catch (NumberFormatException e)
-        {
-            safeId = -1;
-        }
-        if(safeId != -1){
-            newPost.setPostId(safeId);
             return pos.update(newPost);
-        }
-         return  null;
+
 
     }
 
