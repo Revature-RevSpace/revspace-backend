@@ -11,8 +11,6 @@ import com.revature.revspace.util.PostDateComparator;
 
 import java.util.*;
 
-
-
 @Service
 public class PostServiceImpl implements PostService {
 
