@@ -103,7 +103,8 @@ public class CrudServiceTests
 	{
 		int id = 1;
 		Mockito.when(repo.findById(id)).thenReturn(Optional.empty());
-		User actualUser = this.service.get(id);
+		User user = ModelGenerators.makeRandomUser(id);
+		User actualUser = this.service.update(user);
 		Assertions.assertNull(actualUser);
 	}
 
