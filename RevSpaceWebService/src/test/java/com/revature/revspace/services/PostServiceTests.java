@@ -7,7 +7,7 @@ import com.revature.revspace.repositories.LikeRepo;
 import com.revature.revspace.repositories.PostRepo;
 import com.revature.revspace.testutils.ModelGenerators;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +30,25 @@ public class PostServiceTests {
     @MockBean
     LikeRepo lr;
 
-    static List<Post> allComments = new ArrayList<>();
-    static List<Post> firstLevelComments = new ArrayList<>();
-    static List<Post> secondLevelComments = new ArrayList<>();
-    static List<Post> unrelatedComments = new ArrayList<>();
-    static List<Post> sortedRelatedComments = new ArrayList<>();
-    static List<Post> postList = new ArrayList<>();
-    static List<Like> likeList = new ArrayList<>();
-    static Post parentPost1 = new Post();
-    static Post parentPost2 = new Post();
-    static List<User> userList = new ArrayList<>();
+    private List<Post> allComments;
+    private List<Post> sortedRelatedComments;
+    private List<Post> postList;
+    private List<Like> likeList;
+    private Post parentPost1;
 
-    @BeforeAll
-    public static void setUp(){
+    @BeforeEach
+    void setUp(){
+        allComments = new ArrayList<>();
+        List<Post> firstLevelComments = new ArrayList<>();
+        List<Post> secondLevelComments = new ArrayList<>();
+        List<Post> unrelatedComments = new ArrayList<>();
+        sortedRelatedComments = new ArrayList<>();
+        postList = new ArrayList<>();
+        likeList = new ArrayList<>();
+        parentPost1 = new Post();
+        Post parentPost2 = new Post();
+        List<User> userList = new ArrayList<>();
+
         for (int i = 0; i < 5; i++){
             userList.add(ModelGenerators.makeRandomUser(i+1));
         }
@@ -68,9 +74,6 @@ public class PostServiceTests {
         for (int i = 0; i < 2; i++){
             likeList.add(new Like(i+1, userList.get(i+1),parentPost1));
         }
-//        for (int i = 0; i < 2; i++){
-//            likeList.add(new Like(i+3, userList.get(i+3),parentPost2));
-//        }
 
         allComments.addAll(firstLevelComments);
         allComments.addAll(secondLevelComments);
@@ -85,14 +88,24 @@ public class PostServiceTests {
         parentPost1.setParentPost(null);
         postList.add(parentPost1);
 
-        parentPost1.setPostId(2);
-        parentPost1.setCreatorId(userList.get(2));
-        parentPost1.setBody("post2 Body");
-        parentPost1.setImage("post2 Image");
-        parentPost1.setDate(1637600000);
-        parentPost1.setComment(false);
-        parentPost1.setParentPost(null);
+        parentPost2.setPostId(2);
+        parentPost2.setCreatorId(userList.get(2));
+        parentPost2.setBody("post2 Body");
+        parentPost2.setImage("post2 Image");
+        parentPost2.setDate(1637600000);
+        parentPost2.setComment(false);
+        parentPost2.setParentPost(null);
         postList.add(parentPost2);
+    }
+
+    @Test
+    void getRepo(){
+        Assertions.assertNotNull(ps.getRepo());
+    }
+
+    @Test
+    void getIDFor(){
+        Assertions.assertNotNull(ps.getIDFor(parentPost1));
     }
 
     @Test
