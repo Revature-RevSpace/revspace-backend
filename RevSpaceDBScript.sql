@@ -64,23 +64,31 @@ insert into credentials values
 	(default, 2, 'Password1');
 
 insert into posts values 
-	(default, 1, 'post1', 'https://i.imgur.com/s1L1qpB.jpeg', 1637446178, false, null),
-	(default, 2, 'post2', '', 1637446178, false, null);
+	(default, 2, 'post1', 'https://i.imgur.com/s1L1qpB.jpeg', 1637815908000, false, null),
+	(default, 1, 'post2', '', 1637400099000, false, null),
+	(default, 1, 'post3', '', 1637400009000, false, null),
+	(default, 1, 'post4', '', 1637400008000, false, null),
+	(default, 1, 'post5', '', 1607400007000, false, null),
+	(default, 1, 'post6', '', 1637400006000, false, null),
+	(default, 1, 'post7', '', 1637400005000, false, null),
+	(default, 1, 'post8', '', 1637400004000, false, null),
+	(default, 1, 'post9', '', 1637400003000, false, null),
+	(default, 1, 'post10', '', 1637400002000, false, null),
+	(default, 1, 'post11', '', 1637400001000, false, null);
+
+insert into posts values 					
+	(default, 1, 'post2 level1 comment1 id3', '', 1637456178, true, 1),
+	(default, 1, 'post2 level1 comment2 id4', '', 1637466178, true, 1),
+	(default, 1, 'post2 level1 comment3 id5', '', 1637476178, true, 1),
+	
+	(default, 2, 'post1 level1 comment1 id6', '', 1637456178, true, 2),
+	(default, 2, 'post1 level1 comment2 id7', '', 1637466178, true, 2),
+	(default, 2, 'post1 level1 comment3 id8', '', 1637476178, true, 2);
 
 insert into posts values 
-	(default, 1, 'post2 level1 comment1 id3', '', 1637456178, true, 2),
-	(default, 1, 'post2 level1 comment2 id4', '', 1637466178, true, 2),
-	(default, 1, 'post2 level1 comment3 id5', '', 1637476178, true, 2),
+	(default, 2, 'post2 level2 comment1 id9', '', 1637456178, true, 12),
+	(default, 2, 'post2 level2 comment2 id10', '', 1637456178, true, 12),
 	
-	(default, 2, 'post1 level1 comment1 id6', '', 1637456178, true, 1),
-	(default, 2, 'post1 level1 comment2 id7', '', 1637466178, true, 1),
-	(default, 2, 'post1 level1 comment3 id8', '', 1637476178, true, 1);
-
-insert into posts values 
-	(default, 2, 'post2 level2 comment1 id9', '', 1637456178, true, 3),
-	(default, 2, 'post2 level2 comment2 id10', '', 1637456178, true, 3),
-	
-	(default, 1, 'post1 level2 comment1 id11', '', 1637456178, true, 6),
-	(default, 1, 'post1 level2 comment2 id12', '', 1637456178, true, 6);
-	
+	(default, 1, 'post1 level2 comment1 id11', '', 1637456178, true, 16),
+	(default, 1, 'post1 level2 comment2 id12', '', 1637456178, true, 16);
 	
