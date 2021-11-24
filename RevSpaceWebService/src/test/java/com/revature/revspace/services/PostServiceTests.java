@@ -71,8 +71,10 @@ public class PostServiceTests {
                     true, parentPost2));
         }
 
+      
         for (int i = 0; i < 2; i++){
             likeList.add(new Like(i+1, userList.get(i+1),parentPost1));
+
         }
 
         allComments.addAll(firstLevelComments);
