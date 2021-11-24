@@ -16,7 +16,7 @@ public class Like {
     @JoinColumn(name = "user_id")
     private User userId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post postId;
 
