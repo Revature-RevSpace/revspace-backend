@@ -26,7 +26,8 @@ public class PostController
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Post> addPost(@RequestBody Post p)
     {
-        return new ResponseEntity<>(pos.add(p), HttpStatus.OK);
+        Post tempPost = pos.add(p);
+        return new ResponseEntity<>(tempPost, HttpStatus.OK);
     }
 
 
