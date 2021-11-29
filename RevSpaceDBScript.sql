@@ -68,7 +68,7 @@ insert into posts values
 	(default, 1, 'post2', '', 1637400099000, false, null),
 	(default, 1, 'post3', '', 1637400009000, false, null),
 	(default, 1, 'post4', '', 1637400008000, false, null),
-	(default, 1, 'post5', '', 1607400007000, false, null),
+	(default, 1, 'post5', '', 1637400007000, false, null),
 	(default, 1, 'post6', '', 1637400006000, false, null),
 	(default, 1, 'post7', '', 1637400005000, false, null),
 	(default, 1, 'post8', '', 1637400004000, false, null),
