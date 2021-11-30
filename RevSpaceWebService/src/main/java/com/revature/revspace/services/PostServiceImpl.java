@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Integer getIDFor(Post value) {
-        return null;
+        return value.getPostId();
     }
 
     public List<List<Post>> pullPostsList(int lastPostIdOnThePage){
@@ -76,6 +76,7 @@ public class PostServiceImpl implements PostService {
                     for (Post likePost : responseLikesList) {
                         if (likePost.getPostId() == post.getPostId()) {
                             likePost.setDate(likePost.getDate() + 1);
+                            likePost.setCreatorId(like.getUserId());
                             notInList = false;
                             break;
                         }
@@ -84,6 +85,7 @@ public class PostServiceImpl implements PostService {
                         Post p = new Post();
                         p.setDate(1);
                         p.setPostId(post.getPostId());
+                        p.setCreatorId(like.getUserId());
                         responseLikesList.add(p);
                     }
                 }
@@ -94,6 +96,7 @@ public class PostServiceImpl implements PostService {
                     for (Post likePost : responseLikesList) {
                         if (likePost.getPostId() == comment.getPostId()) {
                             likePost.setDate(likePost.getDate() + 1);
+                            likePost.setCreatorId(like.getUserId());
                             notInList = false;
                             break;
                         }
@@ -101,6 +104,7 @@ public class PostServiceImpl implements PostService {
                     if (notInList) {
                         Post p = new Post();
                         p.setDate(1);
+                        p.setCreatorId(like.getUserId());
                         p.setPostId(comment.getPostId());
                         responseLikesList.add(p);
                     }
@@ -130,21 +134,5 @@ public class PostServiceImpl implements PostService {
         childrenComments.addAll(childrenOfChildren);
         return childrenComments;
     }
-
-//    public List<Post> selectedRelatedCommentsFaster (Post parentsPost, List<Post> allComments){
-//        List<Post> childrenComments = new ArrayList<>();
-//        for (Post comment : allComments) {
-//            if (parentsPost == comment.getParentPost()) {
-//                childrenComments.add(comment);
-//                allComments.remove(comment);
-//            }
-//        }
-//        List<Post> childrenOfChildren = new ArrayList<>();
-//        for(Post parentsComment : childrenComments){
-//            childrenOfChildren.addAll(selectedRelatedComments(parentsComment, allComments));
-//        }
-//        childrenComments.addAll(childrenOfChildren);
-//        return childrenComments;
-//    }
 
 }

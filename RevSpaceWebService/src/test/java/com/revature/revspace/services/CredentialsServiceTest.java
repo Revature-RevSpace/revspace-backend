@@ -4,21 +4,44 @@ import com.revature.revspace.models.Credentials;
 import com.revature.revspace.models.User;
 import com.revature.revspace.repositories.CredentialsRepo;
 import com.revature.revspace.testutils.ModelGenerators;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
+
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes = com.revature.revspace.app.RevSpaceWebServiceApplication.class)
 public class CredentialsServiceTest {
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     @Autowired
     CredentialsService credentialsService;
 
     @MockBean
     CredentialsRepo credentialsRepo;
+
+    @Test
+    void getRepoGetsRepo()
+    {
+        Assertions.assertNotNull(this.credentialsService.getRepo());
+    }
+
+    @Test
+    void getIdForCredentialsGetsId()
+    {
+        int expectedId = RANDOM.nextInt(100) + 1; // random int in range [1,100]
+        Credentials credentials = ModelGenerators.makeRandomCredentials();
+        credentials.setCredentialsId(expectedId);
+        int actualId = this.credentialsService.getIDFor(credentials);
+        Assertions.assertEquals(expectedId, actualId);
+    }
 
     @Test
     void getByEmail(){

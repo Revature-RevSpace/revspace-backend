@@ -10,15 +10,36 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
+import java.util.Random;
+
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes= RevSpaceWebServiceApplication.class)
 public class UserServiceImplTests
 {
+	private static Random RANDOM = new Random(System.currentTimeMillis());
+
 	@Autowired
 	UserService userService;
 
 	@MockBean
 	UserRepo repo;
+
+	@Test
+	void getRepoGetsRepo()
+	{
+		Assertions.assertNotNull(this.userService.getRepo());
+	}
+
+	@Test
+	void getIdForUserGetsIdForUser()
+	{
+		int expectedId = RANDOM.nextInt(100)+1; // random int in range [1,100]
+		User user = ModelGenerators.makeRandomUser(expectedId);
+		int actualId = this.userService.getIDFor(user);
+		Assertions.assertEquals(expectedId, actualId);
+	}
 
 	@Test
 	void getUserByEmailGetsUser()
@@ -45,5 +66,11 @@ public class UserServiceImplTests
 		Mockito.when(this.repo.findByEmail(null)).thenReturn(null);
 		User actualUser = this.userService.getUserByEmail(null);
 		Assertions.assertNull(actualUser);
+	}
+
+	@Test
+	void getLoggedInUserDoesntGetUserOutsideRequestScope()
+	{
+		Assertions.assertNull(this.userService.getLoggedInUser());
 	}
 }

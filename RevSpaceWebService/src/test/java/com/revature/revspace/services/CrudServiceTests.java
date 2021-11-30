@@ -1,16 +1,20 @@
 package com.revature.revspace.services;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
+import com.revature.revspace.models.Like;
 import com.revature.revspace.models.User;
+import com.revature.revspace.repositories.LikeRepo;
 import com.revature.revspace.repositories.UserRepo;
 import com.revature.revspace.testutils.ModelGenerators;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +22,18 @@ import java.util.Optional;
 /**
  * We'll test this by testing the CRUD methods for a service that uses this
  */
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes= RevSpaceWebServiceApplication.class)
 public class CrudServiceTests
 {
 	@Autowired
 	UserService service;
+
+	@Autowired
+	LikeService ls;
+
+	@MockBean
+	LikeRepo lr;
 
 	@MockBean
 	UserRepo repo;
@@ -103,7 +114,8 @@ public class CrudServiceTests
 	{
 		int id = 1;
 		Mockito.when(repo.findById(id)).thenReturn(Optional.empty());
-		User actualUser = this.service.get(id);
+		User user = ModelGenerators.makeRandomUser(id);
+		User actualUser = this.service.update(user);
 		Assertions.assertNull(actualUser);
 	}
 
@@ -144,5 +156,29 @@ public class CrudServiceTests
 		Mockito.doThrow(IllegalArgumentException.class)
 			.when(this.repo).deleteById(null);
 		Assertions.assertFalse(this.service.delete(null));
+	}
+
+	@Test
+	void addLike()
+	{
+		int id = 1;
+		Like like = new Like();
+		Like expectedLike = new Like();
+		expectedLike.setLikeId(id);
+		Mockito.when(this.lr.save(like)).thenReturn(expectedLike);
+		Like actualLike = ls.add(like);
+		Assertions.assertEquals(expectedLike, actualLike);
+	}
+
+	@Test
+	void getLike()
+	{
+		int id = 1;
+		Like expectedLike = new Like();
+		expectedLike.setLikeId(id);
+		Optional<Like> optionalLike = Optional.of(expectedLike);
+		Mockito.when(this.lr.findById(id)).thenReturn(optionalLike);
+		Like actualLike = this.ls.get(id);
+		Assertions.assertEquals(id, actualLike.getLikeId());
 	}
 }
