@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes = com.revature.revspace.app.RevSpaceWebServiceApplication.class)
 public class LikeControllerTest {
 

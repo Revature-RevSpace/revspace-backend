@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import java.util.Optional;
 /**
  * We'll test this by testing the CRUD methods for a service that uses this
  */
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes= RevSpaceWebServiceApplication.class)
 public class CrudServiceTests
 {
