@@ -1,12 +1,15 @@
 package com.revature.revspace.services;
 
 import com.revature.revspace.app.RevSpaceWebServiceApplication;
+import com.revature.revspace.models.Like;
 import com.revature.revspace.models.User;
+import com.revature.revspace.repositories.LikeRepo;
 import com.revature.revspace.repositories.UserRepo;
 import com.revature.revspace.testutils.ModelGenerators;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +26,12 @@ public class CrudServiceTests
 {
 	@Autowired
 	UserService service;
+
+	@Autowired
+	LikeService ls;
+
+	@MockBean
+	LikeRepo lr;
 
 	@MockBean
 	UserRepo repo;
@@ -145,5 +154,22 @@ public class CrudServiceTests
 		Mockito.doThrow(IllegalArgumentException.class)
 			.when(this.repo).deleteById(null);
 		Assertions.assertFalse(this.service.delete(null));
+	}
+
+	@Test
+	void addLike()
+	{
+		Like like = new Like();
+		ls.add(like);
+		Assertions.assertNotNull(ls.get(like.getLikeId()));
+	}
+
+	@Test
+	void getLike()
+	{
+		Like like = new Like();
+		ls.add(like);
+		Assertions.assertNotNull(ls.get(like.getLikeId()));
+		lr.findById(1);
 	}
 }
