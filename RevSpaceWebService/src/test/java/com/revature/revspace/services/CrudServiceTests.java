@@ -159,17 +159,24 @@ public class CrudServiceTests
 	@Test
 	void addLike()
 	{
+		int id = 1;
 		Like like = new Like();
-		ls.add(like);
-		Assertions.assertNotNull(ls.get(like.getLikeId()));
+		Like expectedLike = new Like();
+		expectedLike.setLikeId(id);
+		Mockito.when(this.lr.save(like)).thenReturn(expectedLike);
+		Like actualLike = ls.add(like);
+		Assertions.assertEquals(expectedLike, actualLike);
 	}
 
 	@Test
 	void getLike()
 	{
-		Like like = new Like();
-		ls.add(like);
-		Assertions.assertNotNull(ls.get(like.getLikeId()));
-		lr.findById(1);
+		int id = 1;
+		Like expectedLike = new Like();
+		expectedLike.setLikeId(id);
+		Optional<Like> optionalLike = Optional.of(expectedLike);
+		Mockito.when(this.lr.findById(id)).thenReturn(optionalLike);
+		Like actualLike = this.ls.get(id);
+		Assertions.assertEquals(id, actualLike.getLikeId());
 	}
 }
