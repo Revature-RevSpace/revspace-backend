@@ -18,8 +18,8 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.ArrayList;
 import java.util.List;
 
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes= com.revature.revspace.app.RevSpaceWebServiceApplication.class)
-//@TestPropertySource("classpath:application-application.test.properties")
 public class PostServiceTests {
     @Autowired
     PostService ps;

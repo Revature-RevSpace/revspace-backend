@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(classes = com.revature.revspace.app.RevSpaceWebServiceApplication.class)
 @TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:application-test.properties")
 public class PostControllerTest {
     private static final String TEST_EMAIL = "testemail@revature.net";
     @Autowired

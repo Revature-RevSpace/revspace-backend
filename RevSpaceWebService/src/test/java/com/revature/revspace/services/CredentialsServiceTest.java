@@ -10,11 +10,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestPropertySource("classpath:application-test.properties")
 @SpringBootTest(classes = com.revature.revspace.app.RevSpaceWebServiceApplication.class)
 public class CredentialsServiceTest {
     private static final Random RANDOM = new Random(System.currentTimeMillis());

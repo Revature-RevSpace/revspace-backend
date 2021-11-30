@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = RevSpaceWebServiceApplication.class)
+@TestPropertySource("classpath:application-test.properties")
 public class UserControllerTests
 {
 	private static final String TEST_EMAIL = "testemail@revature.net";
