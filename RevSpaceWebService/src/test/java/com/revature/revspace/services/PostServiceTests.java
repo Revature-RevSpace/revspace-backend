@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest(classes= com.revature.revspace.app.RevSpaceWebServiceApplication.class)
-//@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application-application.test.properties")
 public class PostServiceTests {
     @Autowired
     PostService ps;
