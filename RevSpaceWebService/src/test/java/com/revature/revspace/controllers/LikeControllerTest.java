@@ -137,7 +137,7 @@ public class LikeControllerTest {
         ResultActions actions = mvc.perform(MockMvcRequestBuilders.post("/likes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(fakeLike)));
-        actions.andExpect(MockMvcResultMatchers.status().isOk());
+        actions.andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
 
